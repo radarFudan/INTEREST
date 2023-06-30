@@ -1,5 +1,5 @@
 # INTEREST
 
-Improve loNg-Term mEmoRy Earning reScaling Temporally
+Improve loNg-Term mEmoRy lEarning reScaling Temporally
 
 ## Examples
