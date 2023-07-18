@@ -1,0 +1,32 @@
+_target_: src.models.lmLitModule.LMLitModule
+
+optimizer:
+  _target_: torch.optim.AdamW
+  _partial_: true
+  lr: 0.001
+  weight_decay: 0.0
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  _partial_: true
+  mode: min
+  factor: 0.1
+  patience: 10
+
+net:
+  _target_: src.models.attention.attention.Transformer
+  embed_dim: 768
+  num_heads: 12
+  batch_first: True
+  layers: 12
+  return_sequences: False
+  bias: True
+
+encoder:
+  _target_: src.models.encoders.embedding.Embedding
+  in_size: ${data.vocab_size}
+  out_size: ${model.net.embed_dim}
+decoder:
+  _target_: src.models.decoders.linear.Linear
+  in_size: ${model.net.embed_dim}
+  out_size: ${data.vocab_size}

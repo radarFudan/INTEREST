@@ -1,0 +1,9 @@
+_target_: src.data.copy_datamodule.CopyDataModule
+data_dir: ${paths.data_dir}
+batch_size: 128
+seq_length: 100
+mem_length: 10
+input_dim: 1
+train_val_test_split: [128_000, 12_800, 12_800]
+num_workers: 1
+pin_memory: False

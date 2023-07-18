@@ -1,0 +1,21 @@
+# @package _global_
+defaults:
+  - /experiment/copy/base.yaml
+  - override /model: tcn.yaml
+  - override /trainer: gpu.yaml
+
+tags: ["copy", "tcn"]
+
+model:
+  optimizer:
+    lr: 0.01
+  net:
+    return_sequences: True
+  encoder:
+    _target_: src.models.encoders.linear.Linear
+    in_size: 1
+    out_size: ${model.net.rec1_size}
+  decoder:
+    _target_: src.models.decoders.linear.Linear
+    in_size: ${model.net.rec1_size}
+    out_size: 1
