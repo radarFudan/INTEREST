@@ -1,4 +1,4 @@
-_target_: src.data.copy_datamodule.CopyDataModule
+_target_: src.data.copy_datamodule.COPYDataModule
 data_dir: ${paths.data_dir}
 batch_size: 128
 seq_length: 100

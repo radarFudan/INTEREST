@@ -19,8 +19,10 @@ do
             metric_value=("100")
             ckpt_path_file="${log_dir_path}/ckpt_path.txt"
             echo "clean up ckpt_path_file and metric_value"
-            echo -n > "$ckpt_path_file"
-            echo -n > "${log_dir_path}/metric_value.txt"
+            mkdir -p "$(dirname "$ckpt_path_file")" && echo -n > "$ckpt_path_file"
+            mkdir -p "$(dirname "${log_dir_path}/metric_value.txt")" && echo -n > "${log_dir_path}/metric_value.txt"
+            # echo -n > "$ckpt_path_file"
+            # echo -n > "${log_dir_path}/metric_value.txt"
             trained=False
 
             gpu_index=0
