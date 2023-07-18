@@ -21,21 +21,21 @@ def data_generator(
     marker = 9 * torch.ones((size, mem_length + 1))
     placeholders = torch.zeros((size, mem_length))
 
-    x = torch.cat((seq, zeros[:, :-1], marker), 1)
-    y = torch.cat((placeholders, zeros, seq), 1)
+    x = torch.cat((seq, zeros[:, :-1], marker), 1).unsqueeze(-1)
+    y = torch.cat((placeholders, zeros, seq), 1).unsqueeze(-1)
     # y = torch.cat((placeholders, zeros, seq), 1).long()
 
     if data_dir is not None:
         input_file_path = data_dir + f"copy_{mem_length}_inputs.npy"
         output_file_path = data_dir + f"copy_{mem_length}_outputs.npy"
 
-        torch.save(
-            x.numpy(),
+        np.save(
             input_file_path,
+            x.numpy(),
         )
-        torch.save(
-            y.numpy(),
+        np.save(
             output_file_path,
+            y.numpy(),
         )
 
     return x, y
@@ -43,8 +43,10 @@ def data_generator(
 
 if __name__ == "__main__":
     x, y = data_generator(data_dir="./", size=1, seq_length=20, mem_length=10)
-    print(x)
-    print(y)
+    print(torch.squeeze(x))
+    print(torch.squeeze(y))
+    print(x.shape)
+    print(y.shape)
     print(x.dtype)
     print(y.dtype)
 

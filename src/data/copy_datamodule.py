@@ -9,8 +9,9 @@ from lightning import LightningDataModule
 from torch.utils.data import ConcatDataset, DataLoader, Dataset, random_split
 from torchvision.transforms import transforms
 
-# from src.data.components.copy.datagen import data_generator
-from components.copy.datagen import data_generator
+from src.data.components.copy.datagen import data_generator
+
+# from components.copy.datagen import data_generator
 
 
 class COPYDataModule(LightningDataModule):
