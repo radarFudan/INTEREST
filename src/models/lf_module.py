@@ -8,7 +8,6 @@ from torchmetrics import MaxMetric, MeanMetric
 
 from src.utils.temporally_weighted_error import twe_MSE
 
-
 class LFLitModule(LightningModule):
     """Example of LightningModule for LF classification.
 
@@ -44,7 +43,8 @@ class LFLitModule(LightningModule):
 
         # loss function
         # self.criterion = torch.nn.MSELoss()
-        self.criterion = partial(twe_MSE, criterion=torch.nn.MSELoss(), p=2)
+        self.p = 0
+        self.criterion = partial(twe_MSE, criterion=torch.nn.MSELoss(), p=self.p)
 
         # for averaging loss across batches
         self.train_loss = MeanMetric()
@@ -82,7 +82,41 @@ class LFLitModule(LightningModule):
         return loss
 
     def on_train_epoch_end(self):
-        pass
+        
+        # Evaluate the gradient norm for different p: p or p+1 or p-1.
+        # Adjust the parameter p based on the evaluated gradient norm.
+
+        p_list = [self.p, self.p + 1, max(self.p - 1, 0)]
+
+        norm_list = []
+        for p in p_list:
+            new_criterion = partial(twe_MSE, criterion=torch.nn.MSELoss(), p=p)
+
+            # Zero gradients before computing the gradient
+            self.optimizer.zero_grad()
+            
+            # Forward and backward passes to compute the gradient
+            inputs, targets = next(iter(self.train_dataloader()))
+            outputs = self.forward(inputs)
+            loss = new_criterion(outputs, targets)
+            loss.backward()
+            
+            # Compute the gradient norm for each p
+            norm = grad_norm(self.net, norm_type=2)
+            norm_list.append(norm)
+
+        # Adjust the parameter p based on the evaluated gradient norm.
+        if norm_list[0] > norm_list[1] and norm_list[0] > norm_list[2]:
+            self.p = p_list[0]
+        elif norm_list[1] > norm_list[0] and norm_list[1] > norm_list[2]:
+            self.p = p_list[1]
+        else:
+            self.p = p_list[2]
+        self.criterion = partial(twe_MSE, criterion=torch.nn.MSELoss(), p=self.p)
+
+        # log p
+        self.log("train/p", self.p, on_step=False, on_epoch=True, prog_bar=False)
+        # pass
 
     def validation_step(self, batch: Any, batch_idx: int):
         loss, targets = self.model_step(batch)

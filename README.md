@@ -13,6 +13,11 @@ Improve loNg-Term mEmoRy lEarning reScaling Temporally
 
 </div>
 
+## Temporal weighted error
+
+$$\textrm{Error}^{\textrm{TPE}} = \frac{1}{T} \sum_{t=1}^T w(t) |y(t) - \hat{y}(t)|, \quad w(t) > 0.$$
+
+
 TODO:
 
 1. Tasks
@@ -22,4 +27,4 @@ TODO:
 2. Models
    1. TCN
    2. Transformer
-3.
+3. How to tune? 

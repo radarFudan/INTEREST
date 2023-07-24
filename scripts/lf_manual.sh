@@ -1,6 +1,6 @@
 #!/bin/bash
 
-activation_list=("hardtanh") # recurrent activation
+activation_list=("linear") # recurrent activation
 model_list=("diagonalrnn") # parameterization method
 rho_name_list=("exp")
 
