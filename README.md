@@ -17,6 +17,9 @@ Improve loNg-Term mEmoRy lEarning reScaling Temporally
 
 $$\textrm{Error}^{\textrm{TPE}} = \frac{1}{T} \sum_{t=1}^T w(t) |y(t) - \hat{y}(t)|, \quad w(t) > 0.$$
 
+If we take $w(t)$ to be $w(t) = \frac{1}{t^p}$, the following curves characterize the error functions' temporal bias. 
+
+![Memory bias](assets/memory_bias.png)
 
 TODO:
 
