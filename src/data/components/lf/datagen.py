@@ -25,7 +25,7 @@ def LF_generate(
         output_file_path = data_dir + f"lf_{rho_name}_outputs.npy"
 
         # Skip generation if files exist
-        if os.path.isfile(input_file_path) and os.path.isfile(output_file_path) and False:
+        if os.path.isfile(input_file_path) and os.path.isfile(output_file_path):
             print("Files for lf already exist, skipping generation.")
             inputs = np.load(input_file_path)
             outputs = np.load(output_file_path)
