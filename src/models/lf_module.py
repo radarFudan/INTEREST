@@ -8,7 +8,6 @@ from torchmetrics import MaxMetric, MeanMetric
 
 from src.utils.temporally_weighted_error import twe_MSE
 
-
 class LFLitModule(LightningModule):
     """Example of LightningModule for LF classification.
 
@@ -44,7 +43,8 @@ class LFLitModule(LightningModule):
 
         # loss function
         # self.criterion = torch.nn.MSELoss()
-        self.criterion = partial(twe_MSE, criterion=torch.nn.MSELoss(), p=2)
+        self.p = 0
+        self.criterion = partial(twe_MSE, criterion=torch.nn.MSELoss(), p=self.p)
 
         # for averaging loss across batches
         self.train_loss = MeanMetric()
@@ -67,6 +67,16 @@ class LFLitModule(LightningModule):
         x, y = batch
         logits = self.forward(x)
         loss = self.criterion(logits, y)
+
+        # with probability = 0.01, increase p if loss increases
+        # if torch.rand(1) < 0.1:
+        #     new_criterion = partial(twe_MSE, criterion=torch.nn.MSELoss(), p=self.p+1)
+        #     new_loss = new_criterion(logits, y)
+        #     if new_loss > loss:
+        #         print(f"p: {self.p} -> {self.p+1}")
+        #         self.p += 1
+        #         self.criterion = new_criterion
+
         return loss, y
 
     def training_step(self, batch: Any, batch_idx: int):
@@ -82,6 +92,7 @@ class LFLitModule(LightningModule):
         return loss
 
     def on_train_epoch_end(self):
+        
         pass
 
     def validation_step(self, batch: Any, batch_idx: int):

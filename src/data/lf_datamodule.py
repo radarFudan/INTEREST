@@ -93,16 +93,16 @@ class LFDataModule(LightningDataModule):
         # LF(self.hparams.data_dir, train=True, download=True)
         # LF(self.hparams.data_dir, train=False, download=True)
 
-        # LF_generate(
-        #     self.hparams.data_dir,
-        #     self.train_size + self.val_size + self.test_size,
-        #     self.seq_length,
-        #     self.input_dim,
-        #     self.dt,
-        #     self.rhos[self.rho_name],
-        #     self.rho_name,
-        # )
-        pass
+        LF_generate(
+            self.hparams.data_dir,
+            self.train_size + self.val_size + self.test_size,
+            self.seq_length,
+            self.input_dim,
+            self.dt,
+            self.rhos[self.rho_name],
+            self.rho_name,
+        )
+        # pass
 
     def setup(self, stage: Optional[str] = None):
         """Load data. Set variables: `self.data_train`, `self.data_val`, `self.data_test`.
@@ -121,8 +121,8 @@ class LFDataModule(LightningDataModule):
             # print("In lf_datamodule.py, outputs.shape", outputs.shape)
 
             dataset = torch.utils.data.TensorDataset(
-                torch.from_numpy(inputs).float(),
-                torch.from_numpy(outputs).float(),
+                torch.from_numpy(inputs.copy()).float(),
+                torch.from_numpy(outputs.copy()).float(),
             )
 
             self.data_train, self.data_val, self.data_test = random_split(

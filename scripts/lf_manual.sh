@@ -1,6 +1,6 @@
 #!/bin/bash
 
-activation_list=("hardtanh") # recurrent activation
+activation_list=("linear") # recurrent activation
 model_list=("diagonalrnn") # parameterization method
 rho_name_list=("exp")
 
@@ -15,7 +15,8 @@ do
             task_name="LF_${activation}_${model}_${rho_name}"
             log_dir_path="logs/${task_name}/runs"
 
-            rec1_size_list=("8" "16" "32" "64")
+            # rec1_size_list=("8" "16" "32" "64")
+            rec1_size_list=("8")
             metric_value=("100")
             ckpt_path_file="${log_dir_path}/ckpt_path.txt"
             echo "clean up ckpt_path_file and metric_value"
