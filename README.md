@@ -31,3 +31,60 @@ TODO:
    1. TCN
    2. Transformer
 3. How to tune? 
+
+## Installation
+
+#### Pip
+
+```bash
+# clone project
+git clone https://github.com/radarFudan/Curse-of-memory
+cd Curse-of-memory
+
+# [OPTIONAL] create conda environment
+conda create -n myenv python=3.9
+conda activate myenv
+
+# install pytorch according to instructions
+# https://pytorch.org/get-started/
+
+# install requirements
+pip install -r requirements.txt
+```
+
+#### Conda
+
+```bash
+# clone project
+git clone https://github.com/radarFudan/Curse-of-memory
+cd Curse-of-memory
+
+# create conda environment and install dependencies
+conda env create -f environment.yaml -n myenv
+
+# activate conda environment
+conda activate myenv
+```
+
+## How to train
+
+```bash
+python src/train.py experiment=Lf/lf-rnn.yaml
+```
+
+## Future plan
+
+## Refs
+
+### Curse of memory / stable approximation / memory functions
+
+```bibtex
+@misc{wang2023improve,
+      title={Improve Long-term Memory Learning Through Rescaling the Error Temporally}, 
+      author={Shida Wang and Zhanglu Yan},
+      year={2023},
+      eprint={2307.11462},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
